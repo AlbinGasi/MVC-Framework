@@ -8,7 +8,7 @@ class Config
 	const PASSWORD = '';
 	const CONTROLLERNAME = 'url';
 	const SITE_TITLE = 'Site for testing';
-	const SITE_URL = 'http://localhost/testing';
+	const SITE_URL = '';
 
 	public static function get($data){
 		$result = $GLOBALS['config'];
