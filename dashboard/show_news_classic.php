@@ -577,8 +577,6 @@ class Eposts
 		}
 	}
 	
-	
-	
 	public function render_categories($headerName,$categoryNotShow){
 		$allCategories = $this->get_categories();
 		$output = "";
@@ -635,7 +633,8 @@ class Eposts
 		$output .= '</div></div>';
 		return $output;
 	}
-	
+
+
 	/*
 		 ******************** Show me.. 
 	*/
@@ -671,7 +670,30 @@ class Eposts
 		echo $this->render_lastComments($numberOfComments,$headerName);
 	}
 
+	public function get_pageGallery($content,$iw_news){
+		$gallery = new EGallery();
+		if($gallery->gallery_set($content->post_id)){
+			echo $iw_news->include_style();
+			$gallery->_galleryStyle = 'basic';
+			$output = "";
+			$output .= $iw_news->set_script("third_party/jquery/jquery.js");
+			$output .= $iw_news->set_script("third_party/slimbox2/js/slimbox2.js");
+			$output .= $iw_news->set_style("third_party/slimbox2/css/slimbox2.css");
+
+		$all_images = $gallery->get_gallery_image_name($content->post_id);
+		foreach ($all_images as $images){
+			if($gallery->_galleryStyle == "basic"){
+				$output .= $iw_news->set_galleryImage($images['gallery_value']);
+			}else if ($gallery->_galleryStyle == "modern"){
+				$output .= $iw_news->set_galleryImage2($images['gallery_value']);
+			}
+		}
+		echo '<br>'.$output;
+		}
+	 }
+
 }
+
 
 Eposts::Init();
 

@@ -441,13 +441,14 @@
 }
 
 .wp-gallery22{
-	width: 70px;
-	height: 70px;
+	width: 80px;
+	height: 80px;
 	border:1px solid #DDDDDD;
 	padding: 3px;
 	border-radius: 4px;
 	margin-right: 2px;
 	margin-top: 8px;
+	object-fit: cover;
 }
 
 /* PAGINATION design */

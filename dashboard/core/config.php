@@ -21,7 +21,7 @@
 				"folder_name" => "dashboard", // your folder name
 				"url_site" => "", // link from your site http://www.yoursite.com/ 
 				"url_news" => "", // this is link or page where you want to show your news
-				"hash_key" => '',
+				"hash_key" => 'ffggttsad3434',
 
 				"ADMIN" => array(
 						"pagination_path" => "posts/all/",

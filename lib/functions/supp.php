@@ -27,7 +27,7 @@ function set_style($href){
 
 function has_page_content($has,$content){
 	if($has === true){
-		include_once 'templates/page.php';
+		include_once 'public/pages/page-from-base.php';
 	}
 }
 
