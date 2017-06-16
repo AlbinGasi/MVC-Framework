@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Type</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+								<?php
+								
+								$post_type = Posts::post_type(); //arr								
+								foreach($post_type as $pt_status){
+									echo '<div class="radio">';
+									echo '<label>';
+									echo '<input type="radio" name="post-type" value="'.$pt_status.'">'.ucfirst($pt_status);
+									echo '</label>';
+									echo '</div>';
+								}
+								?>
+								<p class="help-block">Is these post important than lasts, select type for your post.</p>
+                            </div>
+                            </div>
+                        </div>

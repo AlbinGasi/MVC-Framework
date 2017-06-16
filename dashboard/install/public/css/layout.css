@@ -1,0 +1,263 @@
+body{
+	background: #DDD;
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+#iw-main{
+	width: 800px;
+	min-height: 700px;
+	border: 1px solid #c4c4c4;
+	margin: 0 auto;
+	background: #fff;
+	border-radius: 5px 5px 0 0;
+	position: relative;
+	padding: 10px;
+}
+#iw-steps{
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	width: 680px;
+	height: 50px;
+	background: transparent;
+}
+.iw-step{
+	background: #BC3F3F;
+	width: 320px;
+	height: 40px;
+	float: left;
+	position: relative;
+	border-radius: 0 0 0 0;
+	margin-right: 0px;
+	border-right: 2px dashed #333;
+	padding: 5px 2px 5px 2px;
+	color: #7B1717;
+	text-align: center;
+	padding-bottom: 10px;
+}
+.iw-step:first-child{
+	border-top-left-radius:10px;
+	border-bottom-left-radius:10px;
+	border-left: 1px solid #BA4040;
+}
+.iw-step:last-child{
+	border-top-right-radius:10px;
+	border-bottom-right-radius:10px;
+	border-right: 1px solid #BA4040;
+}
+
+.iw-step:hover{
+	background-color:#DD4B4B;
+	cursor:pointer;
+}
+
+.iw-active{
+	background: #DD4B4B;
+}
+
+.iw-step .first-row{
+	text-transform: uppercase;
+	display: block;
+	font-weight:bold;
+	font-size: 20px;
+	
+}
+.iw-step .second-row{
+	color: #333;
+	font-style: italic;
+
+}
+
+a:link{
+	text-decoration:none;
+	color:#009900;
+}
+a:active{
+	color: #003300;
+}
+a:hover{
+	color: #003300;
+}
+a:visited{
+	color:#009900;
+}
+
+.dashed{
+	width:818px;
+	border: 1px dashed #a1a1a1;
+	margin-left: -10px;
+	
+}
+
+
+
+
+
+/*
+************************************ GENERAL iw
+*/
+
+.text-center{
+	text-align: center;
+}
+.text-bold{
+	font-weight: bold;
+}
+.div-center{
+	margin: 0 auto;
+}
+.italic{
+	font-weight:italic;
+}
+
+/* 
+************************************ END OF GENERAL
+*/
+
+.iw-install{
+	margin-top:10px;
+}
+
+.iw-install input[type="text"], .iw-install textarea {
+  display: block;
+  margin: 0;
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 13px;
+  appearance: none;
+  box-shadow: none;
+  border-radius: 2px;
+  margin-bottom:5px;
+}
+.iw-install input[type="text"]:focus, .iw-install textarea:focus {
+  outline: none;
+}
+
+/*
+	style 1 input
+*/
+.iw-install input[type="text"], .iw-install textarea {
+  padding: 5px;
+  border: solid 1px #dcdcdc;
+  transition: box-shadow 0.3s, border 0.3s;
+}
+.iw-install input[type="text"]:focus,
+.iw-install input[type="text"].focus, .iw-install textarea:focus,
+.iw-install textarea.focus 
+{
+  border: solid 1px #707070;
+  box-shadow: 0 0 5px 1px #969696;
+}
+
+.iw-install table tr td:first-child{
+	font-family:Tahoma;
+	font-size:14px;
+	padding-right:10px;
+	color: #555555;
+	
+}
+
+.iw-install table tr td:last-child{
+	font-family:Tahoma;
+	font-size:12px;
+	padding-left:10px;
+	font-style:italic;
+	color: #787878;
+}
+
+.iw-install h2{
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 10px 0px;
+}
+
+.iw-btn {
+  background: #b53232;
+  background-image: -webkit-linear-gradient(top, #b53232, #cc4747);
+  background-image: -moz-linear-gradient(top, #b53232, #cc4747);
+  background-image: -ms-linear-gradient(top, #b53232, #cc4747);
+  background-image: -o-linear-gradient(top, #b53232, #cc4747);
+  background-image: linear-gradient(to bottom, #b53232, #cc4747);
+  -webkit-border-radius: 6;
+  -moz-border-radius: 6;
+  border-radius: 6px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 8px 18px 8px 18px;
+  text-decoration: none;
+}
+
+.iw-btn:hover {
+	outline: none;
+  background: #9c1d1d;
+  background-image: -webkit-linear-gradient(top, #9c1d1d, #e62222);
+  background-image: -moz-linear-gradient(top, #9c1d1d, #e62222);
+  background-image: -ms-linear-gradient(top, #9c1d1d, #e62222);
+  background-image: -o-linear-gradient(top, #9c1d1d, #e62222);
+  background-image: linear-gradient(to bottom, #9c1d1d, #e62222);
+  text-decoration: none;
+  cursor:pointer;
+}
+.iw-btn:focus{
+  outline: none;
+}
+
+.iw-btn2 {
+  background: #258c21;
+  background-image: -webkit-linear-gradient(top, #258c21, #20701d);
+  background-image: -moz-linear-gradient(top, #258c21, #20701d);
+  background-image: -ms-linear-gradient(top, #258c21, #20701d);
+  background-image: -o-linear-gradient(top, #258c21, #20701d);
+  background-image: linear-gradient(to bottom, #258c21, #20701d);
+  -webkit-border-radius: 6;
+  -moz-border-radius: 6;
+  border-radius: 6px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 8px 18px 8px 18px;
+  text-decoration: none;
+}
+
+.iw-btn2:hover {
+	outline: none;
+  background: #2d8f28;
+  background-image: -webkit-linear-gradient(top, #2d8f28, #37c232);
+  background-image: -moz-linear-gradient(top, #2d8f28, #37c232);
+  background-image: -ms-linear-gradient(top, #2d8f28, #37c232);
+  background-image: -o-linear-gradient(top, #2d8f28, #37c232);
+  background-image: linear-gradient(to bottom, #2d8f28, #37c232);
+  text-decoration: none;
+  cursor:pointer;
+}
+.iw-btn2:focus{
+  outline: none;
+}
+
+#dbmsg{
+	padding-left: 30px;
+}
+
+#dbmsg2{
+	margin-bottom:10px;
+}
+.generalsp{
+	padding-left: 30px;
+}
+
+#iw-finfinish p {
+	padding: 0px 0px 5px 0px;
+	margin: 0px;
+}
+#iw-finfinish .important-fc{
+	padding-left:20px;
+}
+#iw-finfinish .important{
+	background:#EFE;
+}
+#iw-finfinish {
+	font-family:Tahoma;
+}
+
+
+
