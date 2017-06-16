@@ -9,7 +9,7 @@ function get_footer($data) {
 }
 
 function get_templates($data) {
-	include_once 'templates/'. $data . '.php';
+	include_once 'templates/'. $data['template_name'] . '.php';
 }
 
 function set_title($data) {

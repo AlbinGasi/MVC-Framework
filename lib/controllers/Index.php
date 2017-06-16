@@ -13,11 +13,6 @@ class Index extends \lib\Bootstrap\Controller
 		$this->view->title = '';
 		$this->view->render("blog/blog");
 	}
-
-	public function pages($data = null){
-		// eh ovo treba praviti...
-	}
-
 }
 
 ?>

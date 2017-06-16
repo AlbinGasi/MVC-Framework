@@ -8,8 +8,8 @@ class Config
 	const PASSWORD = '';
 	const CONTROLLERNAME = 'url';
 	const SITE_TITLE = 'Site for testing';
-	const SITE_URL = ''; // without slashes on the end
-	const DASHBOARD_URL = ''; // without slashes oon the end
+	const SITE_URL = 'http://localhost/testing'; // without slashes on the end
+	const DASHBOARD_URL = 'http://localhost/testing/dashboard'; // without slashes oon the end
 	const DASHBOARD_NAME = 'dashboard'; // without slashes on the end
 
 	public static function get($data){
