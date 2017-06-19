@@ -1,13 +1,13 @@
 <?php
 		$GLOBALS["iwconfig"] = array(
 				"DB" => array(
-						"host" => "localhost",
-						"user" => "root",
-						"password" => "alko3105",
-						"db_name" => "testing"
+						"host" => "",
+						"user" => "",
+						"password" => "",
+						"db_name" => ""
 				),
 				
-				"table_prefix" => "da_",
+				"table_prefix" => "",
 				
 				"image_dir" => "public/img-media/",
 				"gallery_dir" => "public/post-gallery/",
