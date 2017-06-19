@@ -21,7 +21,7 @@ function set_script($src){
 }
 
 function set_style($href){
-	return "<link href='" . $link . "' rel='stylesheet' type='text/css'>";
+	return "<link href='" . $href . "' rel='stylesheet' type='text/css'>";
 
 }
 
