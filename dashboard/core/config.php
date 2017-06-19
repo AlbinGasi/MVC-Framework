@@ -1,13 +1,13 @@
 <?php
 		$GLOBALS["iwconfig"] = array(
 				"DB" => array(
-						"host" => "",
-						"user" => "",
-						"password" => "",
-						"db_name" => ""
+						"host" => "localhost",
+						"user" => "root",
+						"password" => "alko3105",
+						"db_name" => "testing"
 				),
 				
-				"table_prefix" => "",
+				"table_prefix" => "da_",
 				
 				"image_dir" => "public/img-media/",
 				"gallery_dir" => "public/post-gallery/",
@@ -16,11 +16,11 @@
 				"paginator_all_posts_category" => 10,
 				"paginator_all_posts_of_categories" => 10,
 
-				"path" => "", // path to your folder from root
-				"full_path" => "", //full url link to your admin panel
+				"path" => "/testing/dashboard/", // path to your folder from root
+				"full_path" => "http://localhost/testing/dashboard/", //full url link to your admin panel
 				"folder_name" => "dashboard", // your folder name
-				"url_site" => "", // link from your site http://www.yoursite.com/ 
-				"url_news" => "", // this is link or page where you want to show your news
+				"url_site" => "http://localhost/testing/", // link from your site http://www.yoursite.com/ 
+				"url_news" => "http://localhost/testing/blog", // this is link or page where you want to show your news
 				"hash_key" => 'ffggttsad3434',
 
 				"ADMIN" => array(

@@ -49,6 +49,15 @@ class Bootstrap
             }
           }
       }else if(class_exists($controller)){
+        $new_dir = explode('\\', $controller);
+        $new_dir = strtolower($new_dir[3]);
+        if(!is_dir('public/pages/'.$new_dir)){
+          mkdir('public/pages/'.$new_dir, 0777, true);
+          if(!file_exists('public/pages/'.$new_dir . '/index.php')){
+            fopen('public/pages/'.$new_dir . '/index.php', 'w');
+          }
+        }
+        
         $c = new $controller;
         if(method_exists($c,$method)){
             if($params != null){

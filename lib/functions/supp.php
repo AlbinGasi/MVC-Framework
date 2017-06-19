@@ -34,12 +34,14 @@ function has_page_content($has,$content){
 function get_page($page,$model){
 	if(file_exists('public/pages/'.$page.'.php')){
 		include_once 'public/pages/'.$page.'.php';
-	}else{
+	} else if (is_dir('public/pages/' .$page)) {
+		if(file_exists('public/pages/' .$page. '/' . $page . '.php')){
+			include_once 'public/pages/'.$page. '/' . $page . '.php';
+		}
+	} else {
 		echo 'Error! The file: <i>public/pages/'.$page.'.php</i> doesn\'t exist!';
 	}
-	
 }
-
-
+	
 
 ?>

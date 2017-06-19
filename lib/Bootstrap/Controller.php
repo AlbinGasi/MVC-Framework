@@ -1,5 +1,6 @@
 <?php
 namespace lib\Bootstrap;
+use lib\models\Config;
 
 class Controller
 {
@@ -7,8 +8,8 @@ class Controller
         $this->view = new View();
     }
 
-    public function newGenerationIndex($pageName){
-    	if(file_exists('public/pages/'.$pageName . '.php')){
+    public function __transformation($pageName,$action = null){
+    	if(file_exists('public/pages/'.$action . $pageName . '.php')){
 			for($i=0;$i<strlen($pageName);$i++){
 	    		if($i == "-"){
 	    			$pageNameTitle = str_replace("-"," ",$pageName);
@@ -17,12 +18,15 @@ class Controller
 			$this->view->title = ucfirst($pageNameTitle) . ' | ' . $this->_title;
 			$this->view->has_page = false;
 			$this->view->has_page_file = true;
-			$this->view->pageName = $pageName;
-
+			if($action === null){
+				$this->view->pageName = $pageName;
+			}else{
+				$this->view->pageName = $action . '/' .$pageName;
+			}
 			$model_name =  $this->get_model($pageName);
 			$this->view->model = new $model_name;
 		}else{
-		$json = file_get_contents(\lib\models\Config::SITE_URL.'/dashboard/getjson/pages?pagename='.$pageName);
+		$json = file_get_contents(Config::SITE_URL . '/'. Config::DASHBOARD_NAME . '/getjson/pages?pagename='.$pageName);
 		$obj = json_decode($json);
 
 		if($obj != 'none'){
@@ -31,11 +35,15 @@ class Controller
 			$this->view->page = $obj;
 			$this->view->title = ucfirst($obj->post_title) . ' | ' . $this->_title;
 		}else{
-			$this->view->title = $this->_title;
 			$this->view->has_page = false;
 			$this->view->has_page_file = true;
-			$this->view->pageName = 'index';
-
+			if($action === null){
+				$this->view->pageName = 'index';
+				$this->view->title = $this->_title;
+			}else{
+				$this->view->pageName = $action . '/index';
+				$this->view->title = rtrim(ucfirst($action),'/') . ' | ' . $this->_title;
+			}
 			$model_name =  $this->get_model($pageName);
 			$this->view->model = new $model_name;
 		}
