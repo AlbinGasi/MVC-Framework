@@ -3,8 +3,49 @@ namespace lib\Bootstrap;
 class Bootstrap
 {
     public function __construct(){
-		$CGN = \lib\models\Config::CONTROLLERNAME; //Controller GET name
-		
+    $CGN = \lib\models\Config::CONTROLLERNAME; //Controller GET name
+
+    $path1 = 'public/pages';
+    $path2 = 'public/views';
+    $folder_path1 = array_diff(scandir($path1), array('.','..','page-from-base.php'));
+    $folder_path2 = array_diff(scandir($path1), array('.','..','page-from-base.php'));
+
+    $contrllers_path = 'lib/controllers';
+    $controllers_list = array_diff(scandir($contrllers_path), array('.','..'));
+
+    foreach($controllers_list as $controller_name){
+      $controller_name = explode('.', $controller_name);
+      $controller_new_name[] = strtolower($controller_name[0]);
+    }
+    foreach($folder_path1 as $folder_name){
+      $folder_name = strtolower($folder_name);
+      if(!in_array($folder_name, $controller_new_name)){
+        if(is_dir('public/views/'.$folder_name)){
+           $f1 = array_diff(scandir('public/views/'.$folder_name), array('.','..'));
+           foreach($f1 as $file){
+            if(file_exists('public/views/'.$folder_name . '/'.$file)){
+              unlink('public/views/'.$folder_name . '/'.$file);
+            }
+           }
+          rmdir('public/views/'.$folder_name);
+        }
+      }
+    }
+    foreach($folder_path2 as $folder_name){
+      $folder_name = strtolower($folder_name);
+      if(!in_array($folder_name, $controller_new_name)){
+        if(is_dir('public/pages/'.$folder_name)){
+          $f2 = array_diff(scandir('public/pages/'.$folder_name), array('.','..'));
+           foreach($f2 as $file){
+            if(file_exists('public/pages/'.$folder_name . '/'.$file)){
+              unlink('public/pages/'.$folder_name . '/'.$file);
+            }
+           }
+          rmdir('public/pages/'.$folder_name);
+        }
+      }
+    }
+    
     if(!isset($_GET[$CGN])){
         $controller = '\lib\controllers\Index';
         $method = 'index';
@@ -17,19 +58,19 @@ class Bootstrap
     }else{
         $url = $_GET[$CGN];
         $url = explode('/',$url);
-			 
+       
         $controller = '\lib\controllers\\'.ucfirst($url[0]);
         $method = (!empty($url[1])) ? lcfirst($url[1]) : "index";
         $params = (isset($url[2])) ? $url[2] : null;
 
-			 
+       
       if(!class_exists($controller)){
-				 $controller = '\lib\controllers\Index';
-				 $method = $url[0];
+         $controller = '\lib\controllers\Index';
+         $method = $url[0];
          $params = (isset($url[1])) ? $url[1] : null;
-				 $c = new $controller;
-				 if(method_exists($c,$method)){
-						if($params != null){
+         $c = new $controller;
+         if(method_exists($c,$method)){
+            if($params != null){
               $c->$method($params);
             }else{
               $c->$method();
@@ -55,6 +96,12 @@ class Bootstrap
           mkdir('public/pages/'.$new_dir, 0777, true);
           if(!file_exists('public/pages/'.$new_dir . '/index.php')){
             fopen('public/pages/'.$new_dir . '/index.php', 'w');
+          }
+        }
+        if(!is_dir('public/views/'.$new_dir)){
+          mkdir('public/views/'.$new_dir, 0777, true);
+          if(!file_exists('public/views/'.$new_dir . '/index.php')){
+            fopen('public/views/'.$new_dir . '/index.php', 'w');
           }
         }
         
