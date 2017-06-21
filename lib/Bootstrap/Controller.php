@@ -9,6 +9,9 @@ class Controller
     }
 
     public function __transformation($pageName,$action = null){
+    	if($action !== null){
+    		$action = $action . '/';
+    	}
     	if(file_exists('public/pages/'.$action . $pageName . '.php')){
 			for($i=0;$i<strlen($pageName);$i++){
 	    		if($i == "-"){
@@ -21,13 +24,17 @@ class Controller
 			if($action === null){
 				$this->view->pageName = $pageName;
 			}else{
-				$this->view->pageName = $action . '/' .$pageName;
+				$this->view->pageName = $action . $pageName;
 			}
 			$model_name =  $this->get_model($pageName);
 			$this->view->model = new $model_name;
 		}else{
-		$json = file_get_contents(Config::SITE_URL . '/'. Config::DASHBOARD_NAME . '/getjson/pages?pagename='.$pageName);
-		$obj = json_decode($json);
+		if($action === 'index/'){
+			$json = file_get_contents(Config::SITE_URL . '/'. Config::DASHBOARD_NAME . '/getjson/pages?pagename='.$pageName);
+			$obj = json_decode($json);
+		}else{
+			$obj = 'none';
+		}
 
 		if($obj != 'none'){
 			$this->view->has_page_file = false;
@@ -37,13 +44,8 @@ class Controller
 		}else{
 			$this->view->has_page = false;
 			$this->view->has_page_file = true;
-			if($action === null){
-				$this->view->pageName = 'index';
-				$this->view->title = $this->_title;
-			}else{
-				$this->view->pageName = $action . '/index';
-				$this->view->title = rtrim(ucfirst($action),'/') . ' | ' . $this->_title;
-			}
+			$this->view->pageName = $action . 'index';
+			$this->view->title = rtrim(ucfirst($action),'/') . ' | ' . $this->_title;
 			$model_name =  $this->get_model($pageName);
 			$this->view->model = new $model_name;
 		}

@@ -5,7 +5,7 @@ class Kale extends \lib\Bootstrap\Controller
 	public $_title = \lib\models\Config::SITE_TITLE;
 
 	public function index($pageName = null){
-		$this->__transformation($pageName, 'kale/'); //This method find in \lib\Bootstrap\Controller@newGenerationIndex
+		$this->__transformation($pageName, 'kale'); //This method find in \lib\Bootstrap\Controller@__transformation
 		$this->view->render("kale/index");
 	}
 
