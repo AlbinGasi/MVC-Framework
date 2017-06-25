@@ -1,4 +1,5 @@
 <?php
+use \lib\models\Config;
 
 function get_header($data, $title) {
 	include_once 'templates/'. $data . '.php';
@@ -17,11 +18,23 @@ function set_title($data) {
 }
 
 function set_script($src){
-	return "<script src='" . $src . "'></script>";
+	$src_firstChar = mb_substr($src, 0, 1);
+	if($src_firstChar === '/'){
+		return "<script src='" . Config::SITE_URL . $src . "'></script>";
+
+	}else{
+		return "<script src='" . $src . "'></script>";
+	}
 }
 
 function set_style($href){
-	return "<link href='" . $href . "' rel='stylesheet' type='text/css'>";
+	$href_firstChar = mb_substr($href, 0, 1);
+	if($href_firstChar === '/'){
+		return "<link href='" . Config::SITE_URL . $href . "' rel='stylesheet' type='text/css'>";
+	}else{
+		return "<link href='" . $href . "' rel='stylesheet' type='text/css'>";
+	}
+	
 
 }
 
