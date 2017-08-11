@@ -8,6 +8,7 @@ echo set_style('/public/css/account/register.css');
 get_templates(['template_name'=>'configvalues']);
 
 
+if(!\lib\models\Users::is_loggedin()){
 ?>
 
 <div class="login-page">
@@ -53,5 +54,9 @@ if(isset($_POST['btn_pasw_change'])){
 <?php
 echo set_script('/public/js/account/register.js');
 get_footer('account/register/footer');
-
+}else{
+	$url = \lib\models\Config::SITE_URL;
+	echo '<input type="hidden" id="path" value="'.$url.'">';
+	echo "<script>var url = document.getElementById('path').value;window.location.href=url</script>";
+}
 ?>

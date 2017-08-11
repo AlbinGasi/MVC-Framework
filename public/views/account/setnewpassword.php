@@ -3,6 +3,8 @@ use lib\models\Users;
 use lib\models\Alerts;
 use lib\models\Config;
 
+if(!\lib\models\Users::is_loggedin()){
+
 $user = new Users;
 get_header('account/register/header',$this->title);
 get_templates(['template_name'=>'configvalues']);
@@ -62,36 +64,9 @@ if(isset($_POST['btn_pasw_change'])){
 }
 echo set_script('/public/js/account/register.js');
 get_footer('account/register/footer');
-
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<?php
-
-
-
-
-
-
-
+}else{
+	$url = \lib\models\Config::SITE_URL;
+	echo '<input type="hidden" id="path" value="'.$url.'">';
+	echo "<script>var url = document.getElementById('path').value;window.location.href=url</script>";
+}
 ?>
