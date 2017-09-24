@@ -1,11 +1,20 @@
-<?php 
+<?php
+/*
+ - Administrator: 351 (main) or 350
+ - Moderator: 250
+ - Assistant: 4
+ - Advanced User: 3
+ - Simple User: 2
+ - Need Activation: 1
+ - Deactivated: 0
+*/
 namespace lib\models;
 class Users extends Entity
 {
 	public static $tableName;
 	public static $keyColumn = "user_id";
 	private static $_db;
-	
+
 	public static function Init(){
 		self::$_db = Connection::getInstance();
 		self::$tableName = Config::TBL_PREFIX."users";
@@ -24,9 +33,9 @@ class Users extends Entity
 		return md5($user_activation);
 	}
 
-		public function send_activation_code($send_to,$activation_code){	
+	public function send_activation_code($send_to,$activation_code){
 		$full_path = Config::SITE_URL;
-		
+
 		$subject = "Activation code";
 		$formcontent = "For complete your registration, you must activate your account. \n For activation visit the link: 
 		".$full_path."/account/activation/$activation_code \n";
@@ -36,8 +45,8 @@ class Users extends Entity
 		$emailheader .= "From: no-reply@no-reply.com \r\n";
 		$emailheader .= "Reply-To: no-reply@no-reply.com \r\n";
 		$emailheader .= "X-Mailer: PHP/" . phpversion();
-		$emailheader .= "X-Priority: 1" . "\r\n"; 
-	
+		$emailheader .= "X-Priority: 1" . "\r\n";
+
 		$mail = mail($send_to, $subject, $formcontent, $emailheader);
 	}
 
@@ -54,7 +63,7 @@ class Users extends Entity
 
 	public function send_new_password($send_to,$new_psw){
 		$full_path = Config::SITE_URL;
-		
+
 		$subject = "New Password";
 		$formcontent = "If you didn't expect this message just ignore. \n If you want to change password, follow the link: 
 		" . $full_path . "/account/setnewpassword/$new_psw \n";
@@ -64,14 +73,14 @@ class Users extends Entity
 		$emailheader .= "From: no-reply@no-reply.com \r\n";
 		$emailheader .= "Reply-To: no-reply@no-reply.com \r\n";
 		$emailheader .= "X-Mailer: PHP/" . phpversion();
-		$emailheader .= "X-Priority: 1" . "\r\n"; 
-	
+		$emailheader .= "X-Priority: 1" . "\r\n";
+
 		$mail = mail($send_to, $subject, $formcontent, $emailheader);
 	}
 
 	public function username_exists($username){
 		$query = self::$_db->prepare("SELECT user_id FROM ".Config::TBL_PREFIX."users WHERE username = :name");
-		$query->bindParam(':name', $username);	
+		$query->bindParam(':name', $username);
 		$query->execute();
 		if($query->rowCount() > 0 ){
 			return true;
@@ -81,7 +90,7 @@ class Users extends Entity
 	}
 	public function email_exists($email){
 		$query = self::$_db->prepare("SELECT user_id FROM ".Config::TBL_PREFIX."users WHERE email = :mail");
-		$query->bindParam(':mail', $email);	
+		$query->bindParam(':mail', $email);
 		$query->execute();
 		if($query->rowCount() > 0 ){
 			return true;
@@ -106,7 +115,7 @@ class Users extends Entity
 			return false;
 		}
 	}
-	
+
 	public static function user_login($data){
 		$log1 = $data['log1'];
 
@@ -119,47 +128,36 @@ class Users extends Entity
 		}
 
 		$stmt = self::$_db->prepare("SELECT * FROM ".Config::TBL_PREFIX."users WHERE {$sap} = :sap AND password = :password LIMIT 1");
-				$stmt->bindParam(':sap', $data['log1']);
-				$stmt->bindParam(':password', $data['password']);
-				$stmt->execute();
-				
-				$user = $stmt->fetch(\PDO::FETCH_ASSOC);
-				
-				if($stmt->rowCount() > 1){
-					Alerts::get_alert("danger","Ther's error, contact the administrator to resolve.");
-					return false;
-				}else if($stmt->rowCount() == 1){
-					if($user['user_status'] == 1){
-						Alerts::get_alert("danger","Activation!","You must activate your account.");
-					}else if($user['user_status'] == 0){
-						Alerts::get_alert("danger","Sorry!","Your account is deactivated, contact the site administrator for new activation.");
-					}else{
-						if($user[$sap] == $log1 && $user['password'] == $data['password']){
-							$siteHASH = Config::HASH_KEY;
-							$_SESSION[$siteHASH] = array();
-							if($user['user_status'] == 351){
-								$_SESSION[$siteHASH]['adminuser'] = "admin351";
-							}
-							$_SESSION[$siteHASH]['logedin'] = "successUserLogged_871";
-							$_SESSION[$siteHASH]['user_id'] = $user['user_id'];
-							$_SESSION[$siteHASH]['password'] = $user['password'];
-							$_SESSION[$siteHASH]['username'] = $user['username'];
-							$_SESSION[$siteHASH]['email'] = $user['email'];
-							Alerts::get_alert("info","Successful", "You will be redirect to index page.");
-							$url = \lib\models\Config::SITE_URL;
-							echo '<input type="hidden" id="path" value="'.$url.'">';
-							echo "<script>var url=document.getElementById('path').value;setTimeout(function(){window.location.href=url },1000);</script>";
-						}else{
-							if($email_c === true){
-								Alerts::get_alert("danger","Error!","Check your email or password.");
-							}else{
-								Alerts::get_alert("danger","Error!","Check your username or password.");
-							}
-						}
+		$stmt->bindParam(':sap', $data['log1']);
+		$stmt->bindParam(':password', $data['password']);
+		$stmt->execute();
+
+		$user = $stmt->fetch(\PDO::FETCH_ASSOC);
+		if($stmt->rowCount() > 1){
+			Alerts::get_alert("danger","Ther's error, contact the administrator to resolve.");
+			return false;
+		}else if($stmt->rowCount() == 1){
+			if($user['user_status'] == 1){
+				Alerts::get_alert("danger","Activation!","You must activate your account.");
+			}else if($user['user_status'] == 0){
+				Alerts::get_alert("danger","Sorry!","Your account is deactivated, contact the site administrator for new activation.");
+			}else{
+				if($user[$sap] == $log1 && $user['password'] == $data['password']){
+					$siteHASH = Config::HASH_KEY;
+					$_SESSION[$siteHASH] = array();
+					if($user['user_status'] == 351){
+						$_SESSION[$siteHASH]['adminuser'] = "admin351";
 					}
-					
-					
-					
+					$_SESSION[$siteHASH]['user_status'] = $user['user_status'];
+					$_SESSION[$siteHASH]['logedin'] = "successUserLogged_871";
+					$_SESSION[$siteHASH]['user_id'] = $user['user_id'];
+					$_SESSION[$siteHASH]['password'] = $user['password'];
+					$_SESSION[$siteHASH]['username'] = $user['username'];
+					$_SESSION[$siteHASH]['email'] = $user['email'];
+					Alerts::get_alert("info","Successful", "You will be redirect to index page.");
+					$url = \lib\models\Config::SITE_URL;
+					echo '<input type="hidden" id="path" value="'.$url.'">';
+					echo "<script>var url=document.getElementById('path').value;setTimeout(function(){window.location.href=url },1000);</script>";
 				}else{
 					if($email_c === true){
 						Alerts::get_alert("danger","Error!","Check your email or password.");
@@ -167,60 +165,97 @@ class Users extends Entity
 						Alerts::get_alert("danger","Error!","Check your username or password.");
 					}
 				}
+			}
+		}else{
+			if($email_c === true){
+				Alerts::get_alert("danger","Error!","Check your email or password.");
+			}else{
+				Alerts::get_alert("danger","Error!","Check your username or password.");
+			}
+		}
 	}
-	
+
 	public static function is_admin(){
 		$siteHASH = Config::HASH_KEY;
 		$user_id = (isset($_SESSION[$siteHASH]['user_id'])) ? $_SESSION[$siteHASH]['user_id'] : -122;
 		$stmt = self::$_db->prepare("SELECT user_status FROM ".Config::TBL_PREFIX."users WHERE user_id = :id LIMIT 1");
 		$stmt->bindParam(':id', $user_id);
 		$stmt->execute();
-		
 		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
-		
+
 		if($res['user_status'] == 351 || $res['user_status'] == 350){
 			return true;
 		}else{
 			return false;
 		}
 	}
-	
+
 	public static function is_moderator(){
 		$siteHASH = Config::HASH_KEY;
 		$user_id = (isset($_SESSION[$siteHASH]['user_id'])) ? $_SESSION[$siteHASH]['user_id'] : -122;
 		$stmt = self::$_db->prepare("SELECT user_status FROM ".Config::TBL_PREFIX."users WHERE user_id = :id LIMIT 1");
 		$stmt->bindParam(':id', $user_id);
 		$stmt->execute();
-		
+
 		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
-		
 		if($res['user_status'] == 250 || $res['user_status'] == 350 || $res['user_status'] == 351){
 			return true;
 		}else{
 			return false;
 		}
 	}
-	
-	public static function is_writer($user_id){
+
+	public static function is_assistant(){
+		$siteHASH = Config::HASH_KEY;
+		$user_id = (isset($_SESSION[$siteHASH]['user_id'])) ? $_SESSION[$siteHASH]['user_id'] : -122;
 		$stmt = self::$_db->prepare("SELECT user_status FROM ".Config::TBL_PREFIX."users WHERE user_id = :id LIMIT 1");
 		$stmt->bindParam(':id', $user_id);
 		$stmt->execute();
-		
+
 		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
-		
-		if($res['user_status'] == 3){
+		if($res['user_status'] == 4 || $res['user_status'] == 250 || $res['user_status'] == 350 || $res['user_status'] == 351){
 			return true;
 		}else{
 			return false;
 		}
 	}
-	
+
+	public static function is_advanced_user(){
+		$siteHASH = Config::HASH_KEY;
+		$user_id = (isset($_SESSION[$siteHASH]['user_id'])) ? $_SESSION[$siteHASH]['user_id'] : -122;
+		$stmt = self::$_db->prepare("SELECT user_status FROM ".Config::TBL_PREFIX."users WHERE user_id = :id LIMIT 1");
+		$stmt->bindParam(':id', $user_id);
+		$stmt->execute();
+
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		if($res['user_status'] == 3 || $res['user_status'] == 4 || $res['user_status'] == 250 || $res['user_status'] == 350 || $res['user_status'] == 351){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public static function is_simple_user(){
+		$siteHASH = Config::HASH_KEY;
+		$user_id = (isset($_SESSION[$siteHASH]['user_id'])) ? $_SESSION[$siteHASH]['user_id'] : -122;
+		$stmt = self::$_db->prepare("SELECT user_status FROM ".Config::TBL_PREFIX."users WHERE user_id = :id LIMIT 1");
+		$stmt->bindParam(':id', $user_id);
+		$stmt->execute();
+
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		if($res['user_status'] == 2 || $res['user_status'] == 3 || $res['user_status'] == 4 || $res['user_status'] == 250 || $res['user_status'] == 350 || $res['user_status'] == 351){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	public static function get_user_by_id($id,$return){
-			$stmt = self::$_db->prepare("SELECT * FROM ".Config::TBL_PREFIX."users WHERE user_id = :id LIMIT 1");
-			$stmt->bindParam(':id', $id);
-			$stmt->execute();
-			$res = $stmt->fetch(\PDO::FETCH_ASSOC);
-			return $res[$return];
+		$stmt = self::$_db->prepare("SELECT * FROM ".Config::TBL_PREFIX."users WHERE user_id = :id LIMIT 1");
+		$stmt->bindParam(':id', $id);
+		$stmt->execute();
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $res[$return];
 	}
 
 	public function get_user_id_from_activation($activation){
@@ -251,7 +286,7 @@ class Users extends Entity
 			return false;
 		}
 	}
-	
+
 	public static function is_loggedin(){
 		$siteHASH = Config::HASH_KEY;
 		$user_id = (isset($_SESSION[$siteHASH]['user_id'])) ? $_SESSION[$siteHASH]['user_id'] : -122;
@@ -276,8 +311,6 @@ class Users extends Entity
 			return false;
 		}
 	}
-	
-
 }
 Users::Init();
 
