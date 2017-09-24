@@ -34,27 +34,25 @@ function set_style($href){
 	}else{
 		return "<link href='" . $href . "' rel='stylesheet' type='text/css'>";
 	}
-	
-
 }
 
 function has_page_content($has,$content){
 	if($has === true){
-		include_once 'public/pages/page-from-base.php';
+		include_once Config::PUBLIC_HTML . '/pages/page-from-base.php';
 	}
 }
 
 function get_page($page,$model){
-	if(file_exists('public/pages/'.$page.'.php')){
-		include_once 'public/pages/'.$page.'.php';
-	} else if (is_dir('public/pages/' .$page)) {
-		if(file_exists('public/pages/' .$page. '/' . $page . '.php')){
-			include_once 'public/pages/'.$page. '/' . $page . '.php';
+	if(file_exists(Config::PUBLIC_HTML . '/pages/'.$page.'.php')){
+		include_once Config::PUBLIC_HTML . '/pages/'.$page.'.php';
+	} else if (is_dir(Config::PUBLIC_HTML . '/pages/' .$page)) {
+		if(file_exists(Config::PUBLIC_HTML . '/pages/' .$page. '/' . $page . '.php')){
+			include_once Config::PUBLIC_HTML . '/pages/'.$page. '/' . $page . '.php';
 		}
 	} else {
-		echo 'Error! The file: <i>public/pages/'.$page.'.php</i> doesn\'t exist!';
+		echo 'Error! The file: <i>'.Config::PUBLIC_HTML .'/pages/'.$page.'.php</i> doesn\'t exist!';
 	}
 }
-	
+
 
 ?>
