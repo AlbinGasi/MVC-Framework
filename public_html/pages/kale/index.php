@@ -1,0 +1,1 @@
+Kale index page
