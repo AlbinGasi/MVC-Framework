@@ -83,7 +83,7 @@ class Controller
 			}else{
 				$this->view->pageName = $action . $pageName;
 			}
-			$model_name =  $this->get_model($pageName);
+			$model_name =  $this->get_model($pageName,$action);
 			$this->view->model = new $model_name;
 		}else{
 			if($action === 'index/'){
@@ -107,13 +107,23 @@ class Controller
 				$this->view->has_page_file = true;
 				$this->view->pageName = $action . 'index';
 				$this->view->title = rtrim(ucfirst($action),'/') . ' | ' . $this->_title;
-				$model_name =  $this->get_model($pageName);
+				$model_name =  $this->get_model($pageName,$action);
 				$this->view->model = new $model_name;
 			}
 		}
 	}
 
-	public function get_model($model){
+	public function get_model($model,$action){
+		/*
+		 	- On index method of any CONTROLLERS this is automatically
+			- On others methos inside CONTROLLERS model must be name of that method
+				and action must be name of that controller
+				example: this will be first two lines in every new method excluding INDEX
+					$model_name = $this->get_model('get','datatracking');
+								// values get and datatracking raplace with your model name and action name
+					$this->view->model = new $model_name;
+		*/
+
 		for($i=0;$i<strlen($model);$i++){
 			if($i == "-"){
 				$model = str_replace("-","",$model);
@@ -123,14 +133,24 @@ class Controller
 			}
 		}
 
-		$model_path = 'lib\models\\' . ucfirst($model);
+		$controller_path = 'lib\models\\' . ucfirst($action);
+		if(substr($controller_path,-1) == "/") $controller_path = substr($controller_path,0,-1);
 
-		if(file_exists($model_path . '.php')){
-			return $model_path;
+		if($model == ""){
+			if(file_exists($controller_path . '.php')){
+				return $controller_path;
+			}else{
+				return 'lib\models\Index';
+			}
 		}else{
-			return 'lib\models\Index';
+			if(file_exists($controller_path . '_' . ucfirst($model) . '.php')){
+				return $controller_path . '_' . ucfirst($model);
+			}else if(file_exists($controller_path . '.php')){
+				return $controller_path;
+			}else{
+				return 'lib\models\Index';
+			}
 		}
-
 	}
 }
 ?>
